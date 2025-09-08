@@ -1,17 +1,65 @@
+"use client";
+
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useEffect, useMemo, useState } from 'react';
+
+interface RotatingWordProps {
+  words: readonly string[];
+  intervalMs?: number;
+}
+
+function RotatingWord({ words, intervalMs = 1400 }: RotatingWordProps) {
+  const [index, setIndex] = useState<number>(0);
+  const safeInterval = intervalMs < 600 ? 600 : intervalMs;
+  const list = useMemo(() => words, [words]);
+  useEffect(() => {
+    const id = setInterval(() => {
+      setIndex((prev) => (prev + 1) % list.length);
+    }, safeInterval);
+    return () => clearInterval(id);
+  }, [list, safeInterval]);
+  return (
+    <span className="relative inline-block align-baseline">
+      <span className="inline-block bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent transition-opacity duration-500">
+        {list[index]}
+      </span>
+    </span>
+  );
+}
 
 export default function Hero() {
   return (
     <section className="py-20 md:py-32 bg-background">
       <div className="container mx-auto text-center px-4">
         <div className="max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
-            The Truly Undetectable Browser
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-foreground">
+            The Truly Undetectable Browser for hiding
           </h1>
-          <p className="mt-4 text-lg md:text-xl text-muted-foreground">
-            Maara is invisible during screen shares and perfect for seamless Otter.ai transcription in meetings. Use Ctrl+Shift+\ to instantly hide/unhide your browser without anyone knowing.
+          <div className="mt-2 text-4xl md:text-6xl font-bold tracking-tight leading-[1.15] md:leading-[1.15] py-1 md:py-2">
+            <RotatingWord
+              words={[
+                'Speaker Notes',
+                'Chatgpt',
+                'Notes',
+                'Otter',
+                'Research',
+                'Cheat sheet',
+                'Backup Slides',
+                'Prep Notes',
+              ] as const}
+              intervalMs={1400}
+            />
+          </div>
+          <div className="mt-2 text-3xl md:text-5xl font-semibold tracking-tight text-foreground">
+            From Screenshare.
+          </div>
+          <p className="mt-6 text-lg md:text-xl text-muted-foreground">
+            Share your screen, not your secrets.
+          </p>
+          <p className="mt-2 text-base md:text-lg text-muted-foreground">
+            Perfect for Interviews • Presentations • Demos
           </p>
           <div className="mt-8 flex justify-center gap-4">
             <Button size="lg" asChild>

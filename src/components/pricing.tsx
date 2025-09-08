@@ -61,7 +61,7 @@ const plans = [
   {
     name: "Enterprise",
     priceId: "price_1S4tP72elfVQpkhMHdj7JZhk", // Maara Enterprise License (every 6 months)
-    price: "$35.99",
+    price: "$34.99",
     period: "/6 months",
     description: "Maximum stealth with premium support.",
     features: [

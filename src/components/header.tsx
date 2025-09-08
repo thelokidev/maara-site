@@ -46,33 +46,31 @@ export default async function Header() {
   const { data: { user } } = await supabase.auth.getUser();
 
   return (
-    <header className="py-3 px-4 sm:px-6 lg:px-8 bg-background/80 backdrop-blur-sm sticky top-0 z-50 border-b">
-      <div className="container mx-auto flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-          <Logo className="h-8 w-8 text-primary" />
-          <span>Hide Your Browser</span>
-        </Link>
-
-        <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
-          <Link href="#how-it-works" className="hover:text-foreground transition-colors">How it works</Link>
-          <Link href="#use-cases" className="hover:text-foreground transition-colors">Use cases</Link>
-          <Link href="#pricing" className="hover:text-foreground transition-colors">Pricing</Link>
-          <Link href="/feedback" className="hover:text-foreground transition-colors">Feedback ↗</Link>
-        </nav>
-
-        <div className="flex items-center gap-2">
-          {user ? (
-            <UserMenu user={user} />
-          ) : (
-            <>
-              <Button variant="ghost" asChild>
-                <Link href="/login">Log in</Link>
-              </Button>
-              <Button asChild>
-                <Link href="/signup">Sign up</Link>
-              </Button>
-            </>
-          )}
+    <header className="sticky top-4 z-50 px-4">
+      <div className="mx-auto w-full max-w-6xl">
+        <div className="flex items-center justify-between rounded-full border bg-card px-4 sm:px-6 py-2 shadow-sm">
+          <Link href="/" className="flex items-center gap-2 font-bold text-base sm:text-lg">
+            <Logo className="h-7 w-7 text-primary" />
+            <span>Maara</span>
+          </Link>
+          <nav className="flex items-center gap-5">
+            <Link href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">How it works</Link>
+            <Link href="#download" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Use cases</Link>
+            <Link href="#pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Pricing</Link>
+            <Link href="/feedback" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:inline-flex">Feedback</Link>
+            {user ? (
+              <UserMenu user={user} />
+            ) : (
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" asChild>
+                  <Link href="/login">Log in</Link>
+                </Button>
+                <Button asChild className="bg-foreground text-background hover:bg-foreground/90">
+                  <Link href="/signup">Sign up</Link>
+                </Button>
+              </div>
+            )}
+          </nav>
         </div>
       </div>
     </header>
