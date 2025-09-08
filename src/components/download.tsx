@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from '@/components/ui/button';
 import { Download, Monitor, Apple, Shield, Zap, Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
