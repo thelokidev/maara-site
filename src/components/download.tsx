@@ -19,7 +19,7 @@ const systemRequirements = {
   }
 };
 
-export default function Download() {
+export default function DownloadSection() {
   return (
     <section id="download" className="py-20 md:py-32 bg-background">
       <div className="container mx-auto px-4">
