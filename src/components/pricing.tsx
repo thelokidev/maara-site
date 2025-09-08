@@ -28,7 +28,7 @@ const plans = [
   },
   {
     name: "Professional",
-    priceId: "price_1PQ1RORsbpWw6p7F5QeAYmMM", // Replace with your actual price ID
+    priceId: "price_1S4tNN2elfVQpkhMQa8i8eiO", // Maara Professional License (monthly)
     price: "$6.99",
     period: "/month",
     description: "Perfect for meeting professionals.",
@@ -45,7 +45,7 @@ const plans = [
   },
   {
     name: "Team Plan",
-    priceId: "price_1PQ1RjRsbpWw6p7FArS74g9S", // Replace with your actual price ID
+    priceId: "price_1S4tOH2elfVQpkhMUOmjZvdP", // Maara Team Plan License (every 3 months)
     price: "$19.99",
     period: "/3 months",
     description: "For teams who need discretion.",
@@ -60,7 +60,7 @@ const plans = [
   },
   {
     name: "Enterprise",
-    priceId: "price_1PQ1SLRsbpWw6p7Fm2p6lTqC", // Replace with your actual price ID
+    priceId: "price_1S4tP72elfVQpkhMHdj7JZhk", // Maara Enterprise License (every 6 months)
     price: "$35.99",
     period: "/6 months",
     description: "Maximum stealth with premium support.",
