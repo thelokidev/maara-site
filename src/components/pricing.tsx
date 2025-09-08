@@ -117,7 +117,8 @@ export default function Pricing() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create checkout session');
+        const errorData = await response.json();
+        throw new Error(errorData.details || errorData.error || 'Failed to create checkout session');
       }
 
       const { sessionId } = await response.json();

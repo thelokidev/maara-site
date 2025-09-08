@@ -9,7 +9,7 @@ export const getURL = () => {
   let url =
     process?.env?.NEXT_PUBLIC_SITE_URL ?? // Set this to your site URL in production
     process?.env?.NEXT_PUBLIC_VERCEL_URL ?? // Automatically set by Vercel.
-    'http://localhost:3000/';
+    'http://localhost:9002/'; // Updated to match your dev server port
   // Make sure to include `https` in production
   url = url.includes('http') ? url : `https://${url}`;
   // Make sure to include a trailing `/`.
