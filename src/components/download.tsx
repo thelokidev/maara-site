@@ -1,10 +1,16 @@
 import { Button } from '@/components/ui/button';
-import { Download, Monitor, Apple, Shield, Zap } from 'lucide-react';
+import { Download, Monitor, Apple, Shield, Zap, Loader2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
-const downloadLinks = {
-  windows: "#", // Replace with actual Windows download link
-  mac: "#",     // Replace with actual Mac download link
-};
+interface ReleaseInfo {
+  version: string;
+  releaseName: string;
+  publishedAt: string;
+  description: string;
+  windowsDownloadUrl?: string;
+  macDownloadUrl?: string;
+  downloadCount: number;
+}
 
 const systemRequirements = {
   windows: {
@@ -20,6 +26,60 @@ const systemRequirements = {
 };
 
 export default function DownloadSection() {
+  const [releaseInfo, setReleaseInfo] = useState<ReleaseInfo | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchReleaseInfo = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch('/api/github/releases');
+
+        if (!response.ok) {
+          if (response.status === 404) {
+            const errorData = await response.json();
+            setError(`${errorData.error} Visit: ${errorData.repository}`);
+          } else {
+            throw new Error('Failed to fetch release information');
+          }
+          return;
+        }
+
+        const data: ReleaseInfo = await response.json();
+        setReleaseInfo(data);
+      } catch (err) {
+        console.error('Error fetching release info:', err);
+        setError('Failed to load download links. Check console for details.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchReleaseInfo();
+  }, []);
+
+  const getDownloadUrl = (platform: 'windows' | 'mac') => {
+    if (!releaseInfo) return '#';
+
+    if (platform === 'windows') {
+      return releaseInfo.windowsDownloadUrl || '#';
+    } else if (platform === 'mac') {
+      return releaseInfo.macDownloadUrl || '#';
+    }
+
+    return '#';
+  };
+
+  const formatDownloadCount = (count: number) => {
+    if (count >= 1000000) {
+      return `${(count / 1000000).toFixed(1)}M`;
+    } else if (count >= 1000) {
+      return `${(count / 1000).toFixed(1)}K`;
+    }
+    return count.toString();
+  };
+
   return (
     <section id="download" className="py-20 md:py-32 bg-background">
       <div className="container mx-auto px-4">
@@ -28,6 +88,14 @@ export default function DownloadSection() {
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
             Get the truly undetectable browser for your platform. Start your stealth browsing experience today.
           </p>
+          {error && (
+            <div className="mt-4 p-4 bg-destructive/10 border border-destructive/20 rounded-lg max-w-md mx-auto">
+              <p className="text-sm text-destructive">{error}</p>
+              <p className="text-xs text-muted-foreground mt-1">
+                Please check back later or contact support.
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Download Cards */}
@@ -50,16 +118,32 @@ export default function DownloadSection() {
               <p>• {systemRequirements.windows.storage}</p>
             </div>
 
-            <Button 
-              size="lg" 
-              className="w-full" 
+            <Button
+              size="lg"
+              className="w-full"
               asChild
+              disabled={isLoading || !releaseInfo?.windowsDownloadUrl}
             >
-              <a href={downloadLinks.windows} download>
-                <Download className="mr-2 h-5 w-5" />
-                Download for Windows
+              <a
+                href={getDownloadUrl('windows')}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {isLoading ? (
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                ) : (
+                  <Download className="mr-2 h-5 w-5" />
+                )}
+                {isLoading ? 'Loading...' : `Download for Windows ${releaseInfo?.version || ''}`}
               </a>
             </Button>
+
+            {releaseInfo && (
+              <p className="text-xs text-muted-foreground text-center mt-2">
+                {formatDownloadCount(releaseInfo.downloadCount)} downloads • v{releaseInfo.version}
+              </p>
+            )}
           </div>
 
           {/* Mac Download */}
@@ -80,16 +164,32 @@ export default function DownloadSection() {
               <p>• {systemRequirements.mac.storage}</p>
             </div>
 
-            <Button 
-              size="lg" 
-              className="w-full" 
+            <Button
+              size="lg"
+              className="w-full"
               asChild
+              disabled={isLoading || !releaseInfo?.macDownloadUrl}
             >
-              <a href={downloadLinks.mac} download>
-                <Download className="mr-2 h-5 w-5" />
-                Download for Mac
+              <a
+                href={getDownloadUrl('mac')}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {isLoading ? (
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                ) : (
+                  <Download className="mr-2 h-5 w-5" />
+                )}
+                {isLoading ? 'Loading...' : `Download for Mac ${releaseInfo?.version || ''}`}
               </a>
             </Button>
+
+            {releaseInfo && (
+              <p className="text-xs text-muted-foreground text-center mt-2">
+                {formatDownloadCount(releaseInfo.downloadCount)} downloads • v{releaseInfo.version}
+              </p>
+            )}
           </div>
         </div>
 
