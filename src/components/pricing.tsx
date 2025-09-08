@@ -144,9 +144,9 @@ export default function Pricing() {
   return (
     <section id="pricing" className="py-20 md:py-32 bg-secondary">
       <div className="container mx-auto text-center px-4">
-        <h2 className="text-3xl md:text-4xl font-bold">Choose Your Stealth Level</h2>
+        <h2 className="text-3xl md:text-4xl font-bold">Choose Your License</h2>
         <p className="mt-4 text-lg text-muted-foreground">
-          From basic invisibility to enterprise-grade meeting stealth. Start with our free trial.
+          Download Maara first, then unlock full features with a license. Start with our free trial.
         </p>
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {plans.map((plan) => (

@@ -30,6 +30,14 @@ const faqs = [
     question: "Is my data secure?",
     answer: "Yes, Maara runs locally on your machine and doesn't store or access your browsing data. Your meeting transcriptions and browsing activity remain completely private and secure.",
   },
+  {
+    question: "How do I install Maara?",
+    answer: "Simply download the installer for your platform (Windows or Mac), run the installer, and you're ready to go. No browser extensions or complex setup required. Installation takes less than 2 minutes.",
+  },
+  {
+    question: "Do I need to pay before downloading?",
+    answer: "No! You can download Maara for free and use it for 10 minutes to test all features. Only purchase a license when you're ready to unlock unlimited usage.",
+  },
 ];
 
 export default function FAQ() {
