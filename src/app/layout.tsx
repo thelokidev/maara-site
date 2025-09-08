@@ -2,6 +2,7 @@ import type {Metadata} from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
+import Header from '@/components/header';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
@@ -18,6 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} dark`}>
       <body className="font-body antialiased">
+        {/* Global Header */}
+        {/* @ts-expect-error Server Component */}
+        <Header />
         {children}
         <Toaster />
       </body>
